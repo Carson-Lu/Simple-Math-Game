@@ -16,8 +16,6 @@ public class MathGame{
     private String operation;
     private JTextField textField;
 
-
-
     public MathGame() {
 
         JFrame frame = new JFrame("Math Game");
@@ -25,8 +23,6 @@ public class MathGame{
         JButton newQButton, resetButton;
         JLabel labelQuestion, labelCorrect, labelIncorrect, labelOptions;
         JCheckBox boxAdd, boxSub, boxMul, boxDiv;
-
-
 
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -58,6 +54,9 @@ public class MathGame{
         c.ipady = 0; // Extra vertical space
         c.insets = new Insets(25, 5, 25, 5); // Whitespace
         panel.add(textField, c);
+        textField.setEditable(false); // Prevents user from inputting before there is a question
+        textField.setTransferHandler(null); // Prevents copypasting
+        // End of TextField
 
         // Buttons
         newQButton = new JButton("New Question");
@@ -79,9 +78,10 @@ public class MathGame{
         c.ipady = 0;
         c.insets = new Insets(20, 15, 20, 15);
         panel.add(resetButton, c);
+        // End of Buttons
 
         // Labels
-            labelQuestion = new JLabel("<html> Please check the option(s) and <br/> click New Question to begin! </html>", SwingConstants.CENTER);
+        labelQuestion = new JLabel("<html> Please check the option(s) and <br/> click New Question to begin! </html>", SwingConstants.CENTER);
         labelQuestion.setVerticalAlignment(JLabel.BOTTOM);
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
@@ -121,6 +121,7 @@ public class MathGame{
         c.ipady = 0;
         c.insets = new Insets(5, 5, 5, 5);
         panel.add(labelOptions, c);
+        // End of Labels
 
         // Checkboxes
         boxAdd = new JCheckBox("Addition");
@@ -162,6 +163,7 @@ public class MathGame{
         c.ipady = 0;
         c.insets = new Insets(5, 5, 5, 5);
         panel.add(boxDiv, c);
+        // End of Checkboxes
 
 
         // Key Listener, only allows a number <= 7 digits long to be entered into textField
@@ -169,17 +171,19 @@ public class MathGame{
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
 
-                if ((textField.getText().length() == 0) && (c == '-')) { 
-            
+                if ((textField.getCaretPosition() == 0) && (c == '-')) { // Allows first character to be '-'
+                    // Do nothing
                 } else if ((textField.getText().length() > 6) || (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE))) {
-                    e.consume(); 
+                    e.consume(); // Consumes anything that is not a number or if number is > 6 digits
                 } 
             }
         });
 
+        // Generates a new Question
         newQButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
+                textField.setEditable(true);
 
                 Double ranOp = Math.random() * 4;
                 Integer op = ranOp.intValue();
@@ -189,7 +193,7 @@ public class MathGame{
                 Double ran1, ran2;
 
                 switch(operation){
-                    case "+":    
+                    case "+": 
                         ran1 = Math.random() * 999;
                         ran2 = Math.random() * 999;
 
@@ -245,15 +249,17 @@ public class MathGame{
 
                     case "Invalid": 
                         labelQuestion.setText("Please check a box");
+                        textField.setEditable(false);
+                        textField.setText("");
                         break;
                         
-                    default: 
+                    default: System.err.println("Error with New Question button");
                         break;
                 }
-
             }
         });
 
+        // Resets Correct and Incorrect counter
         resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 numCorrect = 0;
@@ -264,10 +270,10 @@ public class MathGame{
             }
         });
 
+        // User submitted values
         textField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String uInput = e.getActionCommand();
-
 
                 if (!uInput.equals("")) {
 
@@ -275,20 +281,16 @@ public class MathGame{
 
                     if ((uNum - answer) == 0) {
                         numCorrect++;
-                        String strCorrect = Integer.toString(numCorrect);
-                        labelCorrect.setText("Correct: " + strCorrect);
-                        textField.setText("");
+                        labelCorrect.setText("Correct: " + numCorrect);
+                        textField.setText(""); // Clears user input
                         newQButton.doClick(); // Generates a new question
 
                     } else {
                         numIncorrect++;
-                        String strIncorrect = Integer.toString(numIncorrect);
-                        labelIncorrect.setText("Incorrect: " + strIncorrect);
-
+                        labelIncorrect.setText("Incorrect: " + numIncorrect);
 
                     }
                 }
-
             }
         });
 
@@ -304,9 +306,7 @@ public class MathGame{
 
     }
 
-
-
-
+    // Creates a random operation (+, -, *, /) depending on checkboxes checked
     public static String generateOperation(Integer opNum, boolean add, boolean sub, boolean mul, boolean div) {
         String[] arrayOperation = new String[]{"+", "-", "*", "/"};
         boolean[] operationTicked = new boolean[]{add, sub, mul, div};
@@ -323,47 +323,10 @@ public class MathGame{
                 }
             }
         }
-
         return "Invalid";
     }
 
-
-
-    // Generates new Question 
-    // 
-    public static void generateQuestion(Integer num1, Integer num2, boolean add, boolean sub, boolean mul, boolean div) {
-
-
-
-
-
-
-
-    
-
-    }
-
-    public void checkAnswer() {
-
-    }
-
-
-    
     public static void main(String[] args) {
         MathGame myGame = new MathGame();
-
-
-        /*
-        // Testing generateOperation
-        System.out.println(generateOperation(0, true, true, true, true));
-        System.out.println(generateOperation(1, true, true, true, true));
-        System.out.println(generateOperation(2, true, true, true, true));
-        System.out.println(generateOperation(3, true, true, true, true));
-        System.out.println(generateOperation(0, false, true, true, true)); // should produce -
-        System.out.println(generateOperation(3, true, false, false, false)); // should produce +
-        System.out.println(generateOperation(2, false, true, false, false)); // should produce -
-        */
-
-
     }
 }
