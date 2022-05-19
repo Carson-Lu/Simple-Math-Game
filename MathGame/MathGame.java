@@ -6,71 +6,142 @@ import java.awt.*; // User interface (Abstract Windowing Toolkit)
 
 public class MathGame{
 
-
+    final static boolean shouldFill = true;
+    final static boolean shouldWeightX = true;
+    final static boolean RIGHT_TO_LEFT = false;
 
     public MathGame() {
 
         JFrame frame = new JFrame("Math Game");
-        JPanel panel, uInputPanel;
-        JTextField textField = new JTextField(20);
+        JPanel panel;
+        JTextField textField;
         JButton newQButton, resetButton;
         JLabel labelQuestion, labelCorrect, labelIncorrect, labelOptions;
         JCheckBox boxAdd, boxSub, boxMul, boxDiv;
 
+        Integer num1, num2, numCorrect, numIncorrect;
+
         panel = new JPanel();
-        uInputPanel = new JPanel();
+        panel.setLayout(new GridBagLayout());
 
-        GroupLayout layout = new GroupLayout(panel);
-        FlowLayout fLayout = new FlowLayout();
+        if (RIGHT_TO_LEFT) {
+            panel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        }
 
+        GridBagConstraints c = new GridBagConstraints();
+
+        if (shouldFill) {
+            //natural height, maximum width
+            c.fill = GridBagConstraints.BOTH;
+        }
+
+        if (shouldWeightX) {
+            c.weightx = 0.5;
+        }
+
+        // Textfield
+        textField = new JTextField(20);
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 0; // x location
+        c.gridy = 2; // y location
+        c.gridwidth = 2; // width
+        c.gridheight = 2; // height
+        c.insets = new Insets(25, 5, 25, 5); // Whitespace
+        panel.add(textField, c);
+
+        // Buttons
         newQButton = new JButton("New Question");
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 2;
+        c.gridy = 2;
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        c.insets = new Insets(25, 5, 25, 5);
+        panel.add(newQButton, c);
 
+        resetButton = new JButton("Reset");
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 2;
+        c.gridy = 4;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.insets = new Insets(20, 15, 20, 15);
+        panel.add(resetButton, c);
+
+        // Labels
         labelQuestion = new JLabel("Question text");
-        labelIncorrect = new JLabel("Incorrect text");
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 3;
+        c.gridheight = 2;
+        c.insets = new Insets(5, 5, 5, 5);
+        panel.add(labelQuestion, c);
+
+        labelCorrect = new JLabel("Correct:");
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 0;
+        c.gridy = 4;
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        c.insets = new Insets(5, 5, 5, 5);
+        panel.add(labelCorrect, c);
+
+        labelIncorrect = new JLabel("Incorrect:");
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 1;
+        c.gridy = 4;
+        c.gridwidth = 1;
+        c.gridheight = 2;
+        c.insets = new Insets(5, 5, 5, 5);
+        panel.add(labelIncorrect, c);
+
         labelOptions = new JLabel("Options:");
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 3;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.insets = new Insets(5, 5, 5, 5);
+        panel.add(labelOptions, c);
 
+        // Checkboxes
         boxAdd = new JCheckBox("Addition");
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 3;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.insets = new Insets(5, 5, 5, 5);
+        panel.add(boxAdd, c);
+
         boxSub = new JCheckBox("Subtraction");
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 3;
+        c.gridy = 2;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.insets = new Insets(5, 5, 5, 5);
+        panel.add(boxSub, c);
+
         boxMul = new JCheckBox("Multiplication");
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 3;
+        c.gridy = 3;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.insets = new Insets(5, 5, 5, 5);
+        panel.add(boxMul, c);
+
         boxDiv = new JCheckBox("Division");
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 3;
+        c.gridy = 4;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.insets = new Insets(5, 5, 5, 5);
+        panel.add(boxDiv, c);
 
-        uInputPanel.setLayout(fLayout);
-        uInputPanel.add(textField);
-        uInputPanel.add(newQButton);
-
-        panel.setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
-        layout.setHorizontalGroup(
-            layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(labelQuestion)
-                    .addComponent(uInputPanel)
-                    .addComponent(labelIncorrect))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(labelOptions)
-                    .addComponent(boxAdd)
-                    .addComponent(boxSub)
-                    .addComponent(boxMul)
-                    .addComponent(boxDiv))
-        );
-
-
-        layout.setVerticalGroup(
-            layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelQuestion)
-                    .addComponent(labelOptions))
-                .addComponent(boxAdd)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(uInputPanel)
-                    .addComponent(boxSub))
-                .addComponent(boxMul)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelIncorrect)
-                    .addComponent(boxDiv))
-        );
 
 
         // Key Listener, only allows a number <= 6 digits long to be entered into textField
@@ -84,6 +155,12 @@ public class MathGame{
         });
 
         newQButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        resetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
             }
@@ -130,7 +207,7 @@ public class MathGame{
         return "Invalid";
     }
 
-        // Generates new Question 
+    // Generates new Question 
     // 
     public static void generateQuestion(Integer num1, Integer num2, boolean add, boolean sub, boolean mul, boolean div) {
 
@@ -154,12 +231,6 @@ public class MathGame{
     public void checkAnswer() {
 
     }
-
-    public static void pain(Integer number) {
-        number = 23;
-    }
-
-    
 
 
     
