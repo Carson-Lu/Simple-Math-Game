@@ -10,8 +10,11 @@ public class MathGame{
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
 
-    private Integer numCorrect, numIncorrect, num1, num2, answer;
+    private Integer numCorrect = 0;
+    private Integer numIncorrect = 0;
+    private Integer num1, num2, answer;
     private String operation;
+    private JTextField textField;
 
 
 
@@ -19,7 +22,6 @@ public class MathGame{
 
         JFrame frame = new JFrame("Math Game");
         JPanel panel;
-        JTextField textField;
         JButton newQButton, resetButton;
         JLabel labelQuestion, labelCorrect, labelIncorrect, labelOptions;
         JCheckBox boxAdd, boxSub, boxMul, boxDiv;
@@ -79,7 +81,7 @@ public class MathGame{
         panel.add(resetButton, c);
 
         // Labels
-        labelQuestion = new JLabel("Question text", SwingConstants.CENTER);
+            labelQuestion = new JLabel("<html> Please check the option(s) and <br/> click New Question to begin! </html>", SwingConstants.CENTER);
         labelQuestion.setVerticalAlignment(JLabel.BOTTOM);
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
@@ -178,8 +180,8 @@ public class MathGame{
         newQButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                // Random number [0, 3]
-                Double ranOp = Math.random() * 3;
+
+                Double ranOp = Math.random() * 4;
                 Integer op = ranOp.intValue();
 
                 operation = generateOperation(op, boxAdd.isSelected(), boxSub.isSelected(), boxMul.isSelected(), boxDiv.isSelected());
@@ -264,6 +266,28 @@ public class MathGame{
 
         textField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String uInput = e.getActionCommand();
+
+
+                if (!uInput.equals("")) {
+
+                    Integer uNum = Integer.valueOf(uInput);
+
+                    if ((uNum - answer) == 0) {
+                        numCorrect++;
+                        String strCorrect = Integer.toString(numCorrect);
+                        labelCorrect.setText("Correct: " + strCorrect);
+                        textField.setText("");
+                        newQButton.doClick(); // Generates a new question
+
+                    } else {
+                        numIncorrect++;
+                        String strIncorrect = Integer.toString(numIncorrect);
+                        labelIncorrect.setText("Incorrect: " + strIncorrect);
+
+
+                    }
+                }
 
             }
         });
@@ -329,6 +353,7 @@ public class MathGame{
         MathGame myGame = new MathGame();
 
 
+        /*
         // Testing generateOperation
         System.out.println(generateOperation(0, true, true, true, true));
         System.out.println(generateOperation(1, true, true, true, true));
@@ -337,6 +362,7 @@ public class MathGame{
         System.out.println(generateOperation(0, false, true, true, true)); // should produce -
         System.out.println(generateOperation(3, true, false, false, false)); // should produce +
         System.out.println(generateOperation(2, false, true, false, false)); // should produce -
+        */
 
 
     }
