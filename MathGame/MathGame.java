@@ -229,22 +229,13 @@ public class MathGame{
 
                     case "/":
 
-                        ran1 = Math.random() * 999;
-                        num1 = ran1.intValue();
+                        ran1 = Math.random() * 99;
+                        ran2 = Math.random() * 99;
 
-                        boolean notDivisible = true;
+                        num2 = ran1.intValue();
+                        answer = ran2.intValue();
 
-                        while(notDivisible) {
-
-                            ran2 = (Math.random() * 999) + 1;
-                            num2 = ran2.intValue();
-
-                            if ((num1 % num2) == 0 ) {
-                                notDivisible = false;
-                            }
-                        }
-
-                        answer = num1 / num2;
+                        num1 = num2 * answer;
 
                         labelQuestion.setText(num1 + " / " + num2);
 
