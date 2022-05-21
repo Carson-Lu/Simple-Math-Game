@@ -311,6 +311,6 @@ public class MathGame{
     }
 
     public static void main(String[] args) {
-        MathGame myGame = new MathGame();
+        new MathGame();
     }
 }
