@@ -7,7 +7,6 @@ import java.awt.*; // User interface (Abstract Windowing Toolkit)
 public class MathGame{
 
     final static boolean shouldFill = true;
-    final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
 
     private Integer numCorrect = 0;
@@ -37,11 +36,6 @@ public class MathGame{
         if (shouldFill) {
             //natural height, maximum width
             c.fill = GridBagConstraints.BOTH;
-        }
-
-        if (shouldWeightX) {
-            c.weightx = 0.5;
-            c.weighty = 0.5;
         }
 
         // Textfield
@@ -166,15 +160,17 @@ public class MathGame{
         // End of Checkboxes
 
 
-        // Key Listener, only allows a number <= 7 digits long to be entered into textField
+        // Key Listener, only allows a number <= 7 characters long to be entered into textField
         textField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
 
-                if ((textField.getCaretPosition() == 0) && (c == '-')) { // Allows first character to be '-'
+                if ((textField.getText().contains("-")) && textField.getCaretPosition() == 0) {
+                    e.consume(); // Consumes if number is already negative and user attempts to type infront of it
+                } else if ((textField.getCaretPosition() == 0) && (c == '-')) { // Allows first character to be '-'
                     // Do nothing
                 } else if ((textField.getText().length() > 6) || (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE))) {
-                    e.consume(); // Consumes anything that is not a number or if number is > 6 digits
+                    e.consume(); // Consumes anything that is not a number or if there are > 6 characters
                 } 
             }
         });
@@ -261,7 +257,7 @@ public class MathGame{
 
                     Integer uNum = Integer.valueOf(uInput);
 
-                    if ((uNum - answer) == 0) {
+                    if ((uNum - answer) == 0) { // if the user inputs the correct answer
                         numCorrect++;
                         labelCorrect.setText("Correct: " + numCorrect);
                         textField.setText(""); // Clears user input
