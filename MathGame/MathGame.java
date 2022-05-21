@@ -196,55 +196,37 @@ public class MathGame{
                     case "+": 
                         ran1 = Math.random() * 999;
                         ran2 = Math.random() * 999;
-
                         num1 = ran1.intValue();
                         num2 = ran2.intValue();
-
-                        answer = num1 + num2;
-                        
+                        answer = num1 + num2;  
                         labelQuestion.setText(num1 + " + " + num2);
-
                         break;
 
                     case "-":
                         ran1 = Math.random() * 999;
                         ran2 = Math.random() * 999;
-                        
                         num1 = ran1.intValue();
                         num2 = ran2.intValue();
-
                         answer = num1 - num2;
-
                         labelQuestion.setText(num1 + " - " + num2);
-
                         break;
 
                     case "*":
-
                         ran1 = Math.random() * 99;
                         ran2 = Math.random() * 99;
-
                         num1 = ran1.intValue();
                         num2 = ran2.intValue();
-
                         answer = num1 * num2;
-
                         labelQuestion.setText(num1 + " * " + num2);
-
                         break;
 
                     case "/":
-
-                        ran1 = Math.random() * 99;
-                        ran2 = Math.random() * 99;
-
+                        ran1 = (Math.random() * 99) + 1;
+                        ran2 = (Math.random() * 99) + 1;
                         num2 = ran1.intValue();
                         answer = ran2.intValue();
-
                         num1 = num2 * answer;
-
                         labelQuestion.setText(num1 + " / " + num2);
-
                         break;
 
                     case "Invalid": 
