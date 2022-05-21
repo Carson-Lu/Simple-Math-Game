@@ -7,6 +7,7 @@ import java.awt.*; // User interface (Abstract Windowing Toolkit)
 public class MathGame{
 
     final static boolean shouldFill = true;
+    final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
 
     private Integer numCorrect = 0;
@@ -36,6 +37,11 @@ public class MathGame{
         if (shouldFill) {
             //natural height, maximum width
             c.fill = GridBagConstraints.BOTH;
+        }
+
+        if (shouldWeightX) {
+            c.weightx = 0.5;
+            c.weighty = 0.5;
         }
 
         // Textfield
