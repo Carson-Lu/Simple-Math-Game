@@ -15,8 +15,6 @@ public class TicTacToe  extends JFrame{
         setVisible(true); // Frame is visible
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-
-
     }
     
     public static void main (String[] args) {
