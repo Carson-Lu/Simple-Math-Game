@@ -77,9 +77,6 @@ public class GameScreen extends JPanel implements ActionListener {
         buttons[index].setText(turn);
 
         nextState();
-
-
-
     }
 
     public void nextState() {
